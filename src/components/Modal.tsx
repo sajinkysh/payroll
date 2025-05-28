@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { X } from 'lucide-react';
+import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,11 +11,29 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal-overlay\" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div className="modal">
         <div className="modal-header">
           <h2 className="modal-title">{title}</h2>
           <button className="modal-close" onClick={onClose}>
