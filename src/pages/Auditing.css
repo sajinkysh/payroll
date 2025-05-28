@@ -1,0 +1,126 @@
+.audit-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter select,
+.filter input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 150px;
+}
+
+.audit-log {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.audit-entry {
+  display: flex;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.audit-entry:last-child {
+  border-bottom: none;
+}
+
+.audit-timestamp {
+  min-width: 120px;
+  margin-right: 1.5rem;
+}
+
+.audit-date {
+  font-weight: 500;
+  color: #555;
+}
+
+.audit-time {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.audit-action {
+  min-width: 100px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  margin-right: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.audit-action-create {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.audit-action-update {
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+
+.audit-action-delete {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.audit-details {
+  flex: 1;
+}
+
+.audit-details p {
+  margin-bottom: 0.5rem;
+}
+
+.audit-user {
+  font-size: 0.875rem;
+  color: #777;
+  font-style: italic;
+}
+
+.no-logs {
+  padding: 2rem;
+  text-align: center;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .audit-filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filter {
+    width: 100%;
+  }
+  
+  .filter select,
+  .filter input {
+    width: 100%;
+  }
+  
+  .audit-entry {
+    flex-direction: column;
+  }
+  
+  .audit-timestamp, .audit-action {
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+}

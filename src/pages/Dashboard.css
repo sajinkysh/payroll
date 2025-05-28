@@ -1,0 +1,165 @@
+.dashboard {
+  max-width: 100%;
+}
+
+.dashboard-subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-period {
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  margin-right: 1rem;
+  color: white;
+}
+
+.employee-icon {
+  background-color: #3498db;
+}
+
+.payslip-icon {
+  background-color: #2ecc71;
+}
+
+.pending-icon {
+  background-color: #f39c12;
+}
+
+.allowance-icon {
+  background-color: #9b59b6;
+}
+
+.stat-content h3 {
+  font-size: 0.875rem;
+  color: #777;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.dashboard-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-panel {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-panel h3 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th, .dashboard-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.dashboard-table th {
+  font-weight: 500;
+  color: #555;
+}
+
+.dashboard-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-table tr:last-child {
+  border-bottom: none;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-draft {
+  background-color: #eee;
+  color: #555;
+}
+
+.status-approved {
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+
+.status-paid {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.no-data {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+}
