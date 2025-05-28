@@ -1,55 +1,71 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { authAPI } from '../services/api';
 
 interface User {
+  id: number;
   username: string;
-  role: 'admin' | 'user';
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  login: (username: string, password: string) => Promise<User>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// In a real application, this would be handled by a backend service
-const MOCK_USERS = [
-  { username: 'admin', password: 'admin123', role: 'admin' as const },
-  { username: 'chira', password: 'chira123', role: 'admin' as const },
-];
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+          const currentUser = await authAPI.getCurrentUser();
+          setUser(currentUser);
+        }
+      } catch (err) {
+        console.error('Auth initialization error:', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const matchedUser = MOCK_USERS.find(
-      u => u.username === username && u.password === password
-    );
+    initializeAuth();
+  }, []);
 
-    if (matchedUser) {
-      const userData = {
-        username: matchedUser.username,
-        role: matchedUser.role,
-      };
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return true;
+  const login = async (username: string, password: string): Promise<User> => {
+    try {
+      setError(null);
+      const user = await authAPI.login(username, password);
+      setUser(user);
+      return user;
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || 'Login failed';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
-
-    return false;
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const logout = async () => {
+    try {
+      await authAPI.logout();
+      setUser(null);
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
   };
 
   const value = {
@@ -57,7 +73,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     login,
     logout,
     isAuthenticated: !!user,
+    loading,
+    error,
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
